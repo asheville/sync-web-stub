@@ -130,8 +130,10 @@ body ::selection {
 
 body {
   background: linear-gradient(#00AFA3, #8D00FF);
+  background-attachment: fixed;
   background-repeat: no-repeat;
   cursor: default;
+  font-family: "Avenir Light", Avenir-Light, sans-serif;
   margin: 0;
   padding: 0;
   text-align: center;
@@ -142,16 +144,17 @@ body, body * {
   text-rendering: geometricPrecision;
 }
 
-body:before {
+body::before {
   animation: fadeOut 1s forwards;
   background: #2D0052;
   content: '';
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   opacity: 1;
+  pointer-events: none;
   z-index: 100;
 }
 
@@ -211,7 +214,6 @@ input, button {
 input {
   border: none;
   background: #ffffff;
-  border-bottom: 2px solid #ff8e00;
   border-radius: 0.5em 0.5em 0 0;
   transition: padding 0.5s;
 }
@@ -242,15 +244,20 @@ p {
 }
 
 section {
-  font-family: "Avenir Light", Avenir-Light, sans-serif;
   font-size: 2em;
   left: 50%;
   position: absolute;
   text-align: center;
   top: 50%;
   transform: translateY(-50%) translateX(-50%);
-  width: 50%;
+  max-width: 20em;
   z-index: 2;
+}
+
+body.exceeds-viewport-height section {
+  position: relative;
+  top: auto;
+  transform: translateX(-50%);
 }
 
 /* Standards */
@@ -273,6 +280,7 @@ section {
 section.intro-prompt {
   animation: fadeIn 1s forwards ease-in-out;
   animation-delay: 1s;
+  padding: 3em 0 3em 0;
   opacity: 0;
 }
 
@@ -320,32 +328,15 @@ section.intro-prompt.hidden, section.contact-verification-request.hidden {
 
 section.intro-prompt div.intro-prompt-interior > p, 
 section.intro-prompt form>input, 
-section.intro-prompt form>button, 
-section.intro-prompt p.meta {
+section.intro-prompt form>button {
   opacity: 0;
   animation: fadeIn 2s forwards;
   animation-delay: 2.5s;
 }
 
-section.intro-prompt p.meta {
-  font-size: 0.5em;
-  margin-top: 6em;
-  margin-bottom: 0;
-  color: rgba(255,255,255,0.5);
-}
-
-section.intro-prompt p.meta a {
-  color: rgba(255,255,255,0.5);
-  transition: color 0.5s, border-color 0.5s;
-}
-
-section.intro-prompt p.meta a:hover {
-  color: rgba(255,255,255,1);
-}
-
 section.intro-prompt button {
   border-radius: 0 0 0.5em 0.5em;
-  border-top: 1px solid #e68000;
+  border-top: 1px solid #e47f00;
   opacity: 0.5;
 }
 
@@ -382,4 +373,51 @@ section.intro-prompt-success p, section.contact-verification-request-success p {
 
 section.intro-prompt-success.shown, section.contact-verification-request-success.shown {
   animation: fadeIn 1s forwards;
+}
+
+body.exceeds-viewport-height section.intro-prompt-success {
+  display: none;
+}
+
+/* Footer */
+
+footer {
+  animation: fadeIn 2s forwards;
+  animation-delay: 2.5s;
+  bottom: 0;
+  height: 4em;
+  left: 0;
+  opacity: 0;
+  position: fixed;
+  width: 100%;
+}
+
+body.exceeds-viewport-height footer {
+  position: relative;
+  bottom: auto;
+}
+
+footer div {
+  color: rgba(255,255,255,0.5);
+}
+
+footer div:nth-child(1) {
+  left: 3em;
+  position: absolute;
+  top: 0;
+}
+
+footer div:nth-child(2) {
+  right: 3em;
+  position: absolute;
+  top: 0;
+}
+
+footer a {
+  color: rgba(255,255,255,0.5);
+  transition: color 0.5s, border-color 0.5s;
+}
+
+footer a:hover {
+  color: rgba(255,255,255,1);
 }

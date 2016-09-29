@@ -52,7 +52,34 @@ $(document).ready(function() {
   });
 });
 
+/* Class assignment based on viewport size */
+var checkViewportHeight = function() {
+  var bodyContentHeight = 0;
+
+  $('body').children().each(function() {
+    if ($(this).css('display') !== 'none' && $(this).css('opacity') !== '0') {
+      bodyContentHeight = bodyContentHeight + $(this).outerHeight();
+    }
+  });
+
+  if (bodyContentHeight > $(this).height()) {
+    $('body').addClass('exceeds-viewport-height');
+  } else {
+    $('body').removeClass('exceeds-viewport-height');
+  }
+};
+
+$(window).on('resize', checkViewportHeight);
+
 $(document).ready(function() {
+  /* Body children size change detection */
+
+  $.each($('body').children(), function(index, child) {
+    new ResizeSensor(child, function() {
+      checkViewportHeight();
+    });
+  });
+
   /* Intro prompt */
 
   setTimeout(function() {
@@ -90,7 +117,6 @@ $(document).ready(function() {
       data: JSON.stringify(resource),
       contentType: 'application/json',
       success: function(resource) {
-        console.log('form post response', resource);
         $('section.intro-prompt form button').removeClass('pending');
         $('section.intro-prompt').addClass('hidden');
         $('section.intro-prompt-success').addClass('shown');
@@ -105,10 +131,13 @@ $(document).ready(function() {
       }
 
       $('section.intro-prompt form button').removeClass('pending');
+      checkViewportHeight();
     });
 
     return false;
   });
+
+  /* Contact verification request */
 
   $('section.contact-verification-request form').submit(function() {
     $('section.contact-verification-request form button').addClass('pending');

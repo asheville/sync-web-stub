@@ -1,0 +1,4 @@
+.DS_Store
+sync-web-stub.sublime-workspace
+node_modules/*
+npm-debug.log

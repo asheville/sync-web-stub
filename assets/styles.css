@@ -1,0 +1,385 @@
+/* Keyframes */
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+
+  99% {
+    max-height: 100%;
+    opacity: 0;
+  }
+
+  100% {
+    max-height: 0;
+  }
+}
+
+@keyframes fadeUpOut {
+  0% {
+    opacity: 1;
+    overflow: hidden;
+    transform: translateY(-50%) translateX(-50%) scale(1,1);
+  }
+
+  50% {
+    max-height: 100%;
+    opacity: 0;
+    transform: translateY(-50%) translateX(-50%) scale(2,2);
+  }
+
+  99% {
+    max-height: 100%;
+    opacity: 0;
+    transform: translateY(-50%) translateX(-50%) scale(2,2);
+  }
+
+  100% {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes growIn {
+  0% {
+    max-height: 0;
+  }
+
+  100% {
+    max-height: 15em;
+  }
+}
+
+@keyframes growAndFadeIn {
+  0% {
+    max-height: 0;
+    opacity: 0;
+  }
+
+  50% {
+    max-height: 15em;
+  }
+
+  100% {
+    max-height: 15em;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInHalf {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 0.5;
+  }
+}
+
+@keyframes widenIn {
+  from {
+    width: 15%;
+  }
+
+  to {
+    width: 20%;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 100% 100%;
+  }
+
+  to {
+    background-position: 0 0;
+  }
+}
+
+/* Tags */
+
+a {
+  color: #ffffff;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,0.25);
+  transition: border-color 0.5s;
+}
+
+a:hover {
+  border-bottom-color: rgba(255,255,255,0.75);
+}
+
+body ::-moz-selection {
+  background: rgba(0,175,163,0.25);
+}
+
+body ::selection {
+  background: rgba(0,175,163,0.25);
+}
+
+body {
+  background: linear-gradient(#00AFA3, #8D00FF);
+  background-repeat: no-repeat;
+  cursor: default;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  -webkit-user-select: none;
+}
+
+body, body * {
+  text-rendering: geometricPrecision;
+}
+
+body:before {
+  animation: fadeOut 1s forwards;
+  background: #2D0052;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  z-index: 100;
+}
+
+button {
+  background: #ff8e00;
+  border-radius: 0.5em;
+  border: none;
+  box-shadow: 0 0.5em 0.5em rgba(0,0,0,0.1);
+  color: #ffffff;
+  cursor: pointer;
+  position: relative;
+  transition: color 1s, background-color 0.5s;
+}
+
+button:hover {
+  background: #FFB800;
+}
+
+button.pending {
+  color: rgba(255,255,255,0.75);
+  cursor: default;
+}
+
+button.pending::before {
+  animation: shimmer 0.75s infinite linear;
+  animation-fill-mode: forwards;
+  background: linear-gradient(120deg, rgba(255,255,255,0.25), transparent, rgba(255,255,255,0.25), transparent, rgba(255,255,255,0.25));
+  background-size: 200% 200%;
+  border-radius: 0.5em;
+  content: '';
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+form {
+  margin: auto;
+  width: 14em;
+}
+
+input, button {
+  box-sizing: border-box;
+  font-size: 0.75em;
+  padding: 0.75em 1em;
+  text-align: center;
+  width: 100%;
+  font-family: "Avenir Light", Avenir-Light, sans-serif;
+  transition: background-color 0.5s;
+  outline: none;
+  display: block;
+  line-height: 1em;
+}
+
+input {
+  border: none;
+  background: #ffffff;
+  border-bottom: 2px solid #ff8e00;
+  border-radius: 0.5em 0.5em 0 0;
+  transition: padding 0.5s;
+}
+
+input:focus {
+  padding: 1em;
+}
+
+input:-ms-input-placeholder {
+  color: rgba(0,0,0,0.25);
+  transition: color 0.5s;
+}
+
+input::-moz-placeholder {
+  color: rgba(0,0,0,0.25);
+  transition: color 0.5s;
+}
+
+input::-webkit-input-placeholder {
+  color: rgba(0,0,0,0.25);
+  transition: color 0.5s;
+}
+
+p {
+  color: #ffffff;
+  line-height: 1.2em;
+  margin: 2em 0 2em 0;
+}
+
+section {
+  font-family: "Avenir Light", Avenir-Light, sans-serif;
+  font-size: 2em;
+  left: 50%;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  width: 50%;
+  z-index: 2;
+}
+
+/* Standards */
+
+.standard-logo {
+  animation: fadeInHalf 1s forwards ease-out;
+  display: block;
+  margin: auto;
+  opacity: 0.5;
+  transition: transform 0.5s;
+  width: 15%;
+}
+
+.standard-logo:hover {
+  transform: scale(1.1,1.1);
+}
+
+/* Intro prompt and contact verification request */
+
+section.intro-prompt {
+  animation: fadeIn 1s forwards ease-in-out;
+  animation-delay: 1s;
+  opacity: 0;
+}
+
+section.intro-prompt div.intro-prompt-interior {
+  animation: growIn 1s forwards ease-in-out;
+  animation-delay: 2s;
+  max-height: 0;
+}
+
+section.intro-prompt .standard-logo {
+  animation: widenIn 1s forwards ease-out;
+  animation-delay: 1s;
+  margin-bottom: 2em;
+}
+
+section.intro-prompt {
+  z-index: 2;
+}
+
+section.intro-prompt .error, section.contact-verification-request .error {
+  animation: growAndFadeIn 2s forwards;
+  max-width: 14em;
+  margin: auto;
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1em;
+  box-sizing: border-box;
+  margin-bottom: 1em;
+  margin-top: -0.5em;
+  overflow: hidden;
+}
+
+section.intro-prompt .error p, section.contact-verification-request .error p {
+  font-size: 0.7em;
+  margin: 1em 0 0 0;
+}
+
+section.intro-prompt .error p:first-child, section.contact-verification-request .error p:first-child {
+  margin-top: 0;
+}
+
+section.intro-prompt.hidden, section.contact-verification-request.hidden {
+  animation: fadeUpOut 1s forwards;
+}
+
+section.intro-prompt div.intro-prompt-interior > p, 
+section.intro-prompt form>input, 
+section.intro-prompt form>button, 
+section.intro-prompt p.meta {
+  opacity: 0;
+  animation: fadeIn 2s forwards;
+  animation-delay: 2.5s;
+}
+
+section.intro-prompt p.meta {
+  font-size: 0.5em;
+  margin-top: 6em;
+  margin-bottom: 0;
+  color: rgba(255,255,255,0.5);
+}
+
+section.intro-prompt p.meta a {
+  color: rgba(255,255,255,0.5);
+  transition: color 0.5s, border-color 0.5s;
+}
+
+section.intro-prompt p.meta a:hover {
+  color: rgba(255,255,255,1);
+}
+
+section.intro-prompt button {
+  border-radius: 0 0 0.5em 0.5em;
+  border-top: 1px solid #e68000;
+  opacity: 0.5;
+}
+
+section.intro-prompt button::after {
+  content: '';
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: url(/assets/send-icon.svg);
+  background-size: auto 100%;
+  opacity: 0.75;
+  background-repeat: no-repeat;
+  vertical-align: middle;
+  margin-left: 0.5em;
+  margin-top: -0.2em;
+}
+
+section.intro-prompt button.pending::before {
+  border-radius: 0 0 0.5em 0.5em;
+}
+
+section.intro-prompt-success, section.contact-verification-request-success {
+  background: rgba(255,255,255,0.05);
+  font-family: "Avenir", Avenir, sans-serif;
+  max-height: 15em;
+  opacity: 0;
+  padding: 1em;
+  z-index: 1;
+}
+
+section.intro-prompt-success p, section.contact-verification-request-success p {
+  margin: 0;
+}
+
+section.intro-prompt-success.shown, section.contact-verification-request-success.shown {
+  animation: fadeIn 1s forwards;
+}

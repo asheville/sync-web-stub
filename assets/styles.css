@@ -17,8 +17,29 @@
 
 @keyframes fadeUpOut {
   0% {
-    opacity: 1;
-    overflow: hidden;
+    transform: scale(1,1);
+  }
+
+  50% {
+    max-height: 100%;
+    opacity: 0;
+    transform: scale(2,2);
+  }
+
+  99% {
+    max-height: 100%;
+    opacity: 0;
+    transform: scale(2,2);
+  }
+
+  100% {
+    max-height: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes fadeUpOutCentered {
+  0% {
     transform: translateY(-50%) translateX(-50%) scale(1,1);
   }
 
@@ -37,7 +58,6 @@
   100% {
     max-height: 0;
     opacity: 0;
-    overflow: hidden;
   }
 }
 
@@ -57,7 +77,7 @@
   }
 
   100% {
-    max-height: 15em;
+    max-height: 100em;
   }
 }
 
@@ -68,11 +88,11 @@
   }
 
   50% {
-    max-height: 15em;
+    max-height: 100em;
   }
 
   100% {
-    max-height: 15em;
+    max-height: 100em;
     opacity: 1;
   }
 }
@@ -89,11 +109,11 @@
 
 @keyframes widenIn {
   from {
-    width: 15%;
+    transform: scale(0,0);
   }
 
   to {
-    width: 20%;
+    transform: scale(1,1);
   }
 }
 
@@ -145,7 +165,7 @@ body, body * {
 }
 
 body::before {
-  animation: fadeOut 1s forwards;
+  animation: fadeOut 0.5s forwards;
   background: #2D0052;
   content: '';
   position: fixed;
@@ -195,12 +215,12 @@ button.pending::before {
 
 form {
   margin: auto;
-  width: 14em;
+  max-width: 28em;
 }
 
 input, button {
   box-sizing: border-box;
-  font-size: 0.75em;
+  font-size: 1.5em;
   padding: 0.75em 1em;
   text-align: center;
   width: 100%;
@@ -239,19 +259,42 @@ input::-webkit-input-placeholder {
 
 p {
   color: #ffffff;
+  font-size: 2em;
   line-height: 1.2em;
-  margin: 2em 0 2em 0;
+  margin: 1em 0 0 0;
+}
+
+p:first-child {
+  margin-top: 0;
+}
+
+@media (max-width: 40em) {
+  p {
+    font-size: 1.5em;
+  }
 }
 
 section {
-  font-size: 2em;
+  box-sizing: border-box;
   left: 50%;
+  max-width: 40em;
+  min-width: 20em;
   position: absolute;
   text-align: center;
   top: 50%;
   transform: translateY(-50%) translateX(-50%);
-  max-width: 20em;
   z-index: 2;
+}
+
+@media (max-width: 40em) {
+  section {
+    left: 0;
+    max-width: none;
+    position: relative;
+    top: auto;
+    transform: none;
+    width: 100%;
+  }
 }
 
 body.exceeds-viewport-height section {
@@ -260,15 +303,33 @@ body.exceeds-viewport-height section {
   transform: translateX(-50%);
 }
 
+@media (max-width: 40em) {
+  body.exceeds-viewport-height section {
+    transform: none;
+  }
+}
+
 /* Standards */
 
 .standard-logo {
-  animation: fadeInHalf 1s forwards ease-out;
+  animation: fadeInHalf 0.5s forwards ease-out;
   display: block;
   margin: auto;
   opacity: 0.5;
   transition: transform 0.5s;
-  width: 15%;
+  width: 8em;
+}
+
+@media (max-width: 416px) {
+  .standard-logo {
+    width: 6em;
+  }
+}
+
+@media (max-width: 320px) {
+  .standard-logo {
+    width: 4em;
+  }
 }
 
 .standard-logo:hover {
@@ -278,52 +339,110 @@ body.exceeds-viewport-height section {
 /* Intro prompt and contact verification request */
 
 section.intro-prompt {
-  animation: fadeIn 1s forwards ease-in-out;
-  animation-delay: 1s;
-  padding: 3em 0 3em 0;
-  opacity: 0;
+  box-sizing: border-box;
+  padding: 6em 0;
+}
+
+@media (max-width: 40em) {
+  section.intro-prompt,
+  section.contact-verification-request {
+    height: calc(100% - 6em);
+    padding: 3em 0;
+  }
 }
 
 section.intro-prompt div.intro-prompt-interior {
   animation: growIn 1s forwards ease-in-out;
-  animation-delay: 2s;
+  animation-delay: 0.5s;
   max-height: 0;
 }
 
-section.intro-prompt .standard-logo {
-  animation: widenIn 1s forwards ease-out;
-  animation-delay: 1s;
-  margin-bottom: 2em;
+section.intro-prompt .standard-logo,
+section.contact-verification-request .standard-logo {
+  animation: widenIn 0.5s forwards ease-out;
+  margin-bottom: 4em;
+}
+
+@media (max-width: 416px) {
+  section.intro-prompt .standard-logo,
+  section.contact-verification-request .standard-logo {
+    margin-bottom: 3em;
+  }
+}
+
+@media (max-width: 320px) {
+  section.intro-prompt .standard-logo,
+  section.contact-verification-request .standard-logo {
+    margin-bottom: 2em;
+  }
 }
 
 section.intro-prompt {
   z-index: 2;
 }
 
-section.intro-prompt .error, section.contact-verification-request .error {
+section.intro-prompt .error, 
+section.contact-verification-request .error {
   animation: growAndFadeIn 2s forwards;
-  max-width: 14em;
+  max-width: 28em;
   margin: auto;
   color: white;
   background: rgba(255, 255, 255, 0.1);
-  padding: 1em;
+  padding: 2em;
   box-sizing: border-box;
-  margin-bottom: 1em;
-  margin-top: -0.5em;
+  margin-bottom: 2em;
+  margin-top: -1em;
   overflow: hidden;
 }
 
+@media (max-width: 40em) {
+  section.intro-prompt .error, 
+  section.contact-verification-request .error {
+    padding: 1em;
+  }
+}
+
 section.intro-prompt .error p, section.contact-verification-request .error p {
-  font-size: 0.7em;
-  margin: 1em 0 0 0;
+  font-size: 1.5em;
+  margin: 2em 0 0 0;
+}
+
+@media (max-width: 40em) {
+  section.intro-prompt .error p, 
+  section.contact-verification-request .error p {
+    font-size: 1em;
+    margin-top: 1em;
+  }
 }
 
 section.intro-prompt .error p:first-child, section.contact-verification-request .error p:first-child {
   margin-top: 0;
 }
 
+section.intro-prompt, section.contact-verification-request {
+  opacity: 1;
+}
+
 section.intro-prompt.hidden, section.contact-verification-request.hidden {
-  animation: fadeUpOut 1s forwards;
+  animation: fadeUpOutCentered 0.5s forwards;
+  overflow: hidden;
+}
+
+body.exceeds-viewport-height section.intro-prompt.hidden, 
+body.exceeds-viewport-height section.contact-verification-request.hidden {
+  animation: fadeUpOut 0.5s forwards;
+}
+
+@media (max-width: 40em) {
+  section.intro-prompt.hidden, 
+  section.contact-verification-request.hidden {
+    animation: fadeUpOut 0.5s forwards;
+  }
+}
+
+section.intro-prompt form,
+section.contact-verification-request form {
+  margin-top: 3em;
 }
 
 section.intro-prompt div.intro-prompt-interior > p, 
@@ -331,7 +450,25 @@ section.intro-prompt form>input,
 section.intro-prompt form>button {
   opacity: 0;
   animation: fadeIn 2s forwards;
-  animation-delay: 2.5s;
+  animation-delay: 0.5s;
+}
+
+@media (max-width: 40em) {
+  div.intro-prompt-interior > p,
+  section.contact-verification-request > p {
+    font-size: 1.5em;
+    margin: 1em 0 1.5em 0;
+    padding: 0 0.75em;
+  }
+}
+
+@media (max-width: 40em) {
+  section.intro-prompt form>input, 
+  section.intro-prompt form>button,
+  section.contact-verification-request form>input, 
+  section.contact-verification-request form>button {
+    border-radius: 0;
+  }
 }
 
 section.intro-prompt button {
@@ -341,7 +478,6 @@ section.intro-prompt button {
 }
 
 section.intro-prompt button::after {
-  content: '';
   display: inline-block;
   width: 1em;
   height: 1em;
@@ -354,36 +490,45 @@ section.intro-prompt button::after {
   margin-top: -0.2em;
 }
 
+@media (min-width: 27em) {
+  section.intro-prompt button::after {
+    content: '';
+  }
+}
+
 section.intro-prompt button.pending::before {
   border-radius: 0 0 0.5em 0.5em;
 }
 
-section.intro-prompt-success, section.contact-verification-request-success {
+section.intro-prompt-success, 
+section.contact-verification-request-success {
   background: rgba(255,255,255,0.05);
-  font-family: "Avenir", Avenir, sans-serif;
-  max-height: 15em;
+  display: none;
+  max-height: 100em;
   opacity: 0;
-  padding: 1em;
+  padding: 3em;
+  transition: opacity 0.5s;
   z-index: 1;
 }
 
-section.intro-prompt-success p, section.contact-verification-request-success p {
-  margin: 0;
+section.intro-prompt-success.shown, 
+section.contact-verification-request-success.shown {
+  opacity: 1;
 }
 
-section.intro-prompt-success.shown, section.contact-verification-request-success.shown {
-  animation: fadeIn 1s forwards;
-}
-
-body.exceeds-viewport-height section.intro-prompt-success {
-  display: none;
+@media (max-width: 40em) {
+  section.intro-prompt-success, 
+  section.contact-verification-request-success {
+    opacity: 0;
+    padding: 2em;
+  }
 }
 
 /* Footer */
 
 footer {
   animation: fadeIn 2s forwards;
-  animation-delay: 2.5s;
+  animation-delay: 0.5s;
   bottom: 0;
   height: 4em;
   left: 0;
@@ -392,9 +537,11 @@ footer {
   width: 100%;
 }
 
-body.exceeds-viewport-height footer {
-  position: relative;
-  bottom: auto;
+@media (min-width: 40em) {
+  body.exceeds-viewport-height footer {
+    position: relative;
+    bottom: auto;
+  }
 }
 
 footer div {
@@ -420,4 +567,23 @@ footer a {
 
 footer a:hover {
   color: rgba(255,255,255,1);
+}
+
+@media (max-width: 40em) {
+  footer {
+    bottom: 0;
+    box-sizing: border-box;
+    height: 6em;
+    position: absolute;
+  }
+
+  footer div:nth-child(1), footer div:nth-child(2) {
+    bottom: auto;
+    font-size: 0.85em;
+    left: auto;
+    margin-bottom: 1.5em;
+    right: auto;
+    position: relative;
+    top: auto;
+  }
 }

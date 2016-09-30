@@ -59,10 +59,15 @@ var checkViewportHeight = function() {
   $('body').children().each(function() {
     if ($(this).css('display') !== 'none' && $(this).css('opacity') !== '0') {
       bodyContentHeight = bodyContentHeight + $(this).outerHeight();
+
+      if ($(this).prop('tagName') === 'SECTION') {
+        var fromTop = ($(window).height() - $(this).outerHeight()) / 2;
+        bodyContentHeight = bodyContentHeight + fromTop + 10;
+      }
     }
   });
 
-  if (bodyContentHeight > $(this).height()) {
+  if (bodyContentHeight >= $(window).height()) {
     $('body').addClass('exceeds-viewport-height');
   } else {
     $('body').removeClass('exceeds-viewport-height');
@@ -78,6 +83,12 @@ $(document).ready(function() {
     new ResizeSensor(child, function() {
       checkViewportHeight();
     });
+  });
+
+  /* Body children animation detection */
+
+  $.each($('body').children(), function(index, child) {
+    $(child).on('webkitAnimationEnd oanimationend msAnimationEnd animationend', checkViewportHeight);
   });
 
   /* Intro prompt */
@@ -119,7 +130,11 @@ $(document).ready(function() {
       success: function(resource) {
         $('section.intro-prompt form button').removeClass('pending');
         $('section.intro-prompt').addClass('hidden');
-        $('section.intro-prompt-success').addClass('shown');
+        $('section.intro-prompt-success').show();
+
+        setTimeout(function() {
+          $('section.intro-prompt-success').addClass('shown');
+        }, 510);
       }
     }).fail(function(xhr, textStatus, status) {
       var errorElement = $('<div class="error"><p>Sorry, we were unable to process your email address for some reason.</p><p>Please try again.</p></div>');
@@ -162,7 +177,11 @@ $(document).ready(function() {
       success: function(resource) {
         $('section.contact-verification-request form button').removeClass('pending');
         $('section.contact-verification-request').addClass('hidden');
-        $('section.contact-verification-request-success').addClass('shown');
+        $('section.contact-verification-request-success').show();
+
+        setTimeout(function() {
+          $('section.contact-verification-request-success').addClass('shown');
+        }, 510);
       }
     }).fail(function(xhr, textStatus, status) {
       if ($('section.contact-verification-request .error').length) {

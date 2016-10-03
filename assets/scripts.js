@@ -16,44 +16,6 @@ var getUrlParameter = function getUrlParameter(sParam) {
   }
 };
 
-/* Replace all img tags with svg tags on load
- *
- * From http://stackoverflow.com/questions/24933430/img-src-svg-changing-the-fill-color
- */
-$(document).ready(function() {
-  jQuery('img.svg').each(function(){
-    var $img = jQuery(this);
-    var imgID = $img.attr('id');
-    var imgClass = $img.attr('class');
-    var imgURL = $img.attr('src');
-
-    jQuery.get(imgURL, function(data) {
-      // Get the SVG tag, ignore the rest
-      var $svg = jQuery(data).find('svg');
-
-      // Add replaced image's ID to the new SVG
-      if(typeof imgID !== 'undefined') {
-        $svg = $svg.attr('id', imgID);
-      }
-      // Add replaced image's classes to the new SVG
-      if(typeof imgClass !== 'undefined') {
-        $svg = $svg.attr('class', imgClass+' replaced-svg');
-      }
-
-      // Remove any invalid XML tags as per http://validator.w3.org
-      $svg = $svg.removeAttr('xmlns:a');
-
-      // Check if the viewport is set, if the viewport is not set the SVG wont't scale.
-      if(!$svg.attr('viewBox') && $svg.attr('height') && $svg.attr('width')) {
-        $svg.attr('viewBox', '0 0 ' + $svg.attr('height') + ' ' + $svg.attr('width'))
-      }
-
-      // Replace image with new SVG
-      $img.replaceWith($svg);
-    }, 'xml');
-  });
-});
-
 /* Class assignment based on viewport size */
 var checkViewportHeight = function() {
   var bodyContentHeight = 0;
@@ -97,7 +59,7 @@ $(document).ready(function() {
 
   setTimeout(function() {
     $('section.intro-prompt form input').focus();
-  }, 4000);
+  }, 1500);
 
   $('section.intro-prompt form').submit(function() {
     var email = $('section.intro-prompt form input.email').val().trim();
@@ -132,14 +94,16 @@ $(document).ready(function() {
       success: function(resource) {
         $('section.intro-prompt form button').removeClass('pending');
         $('section.intro-prompt').addClass('hidden');
+        $('footer').remove();
+
         $('section.intro-prompt').on(animationEnd, function() {
           $('section.intro-prompt').remove();
+          $('section.intro-prompt-success').show();
+        
+          setTimeout(function() {
+            $('section.intro-prompt-success').addClass('shown');
+          }, 510);
         });
-        $('section.intro-prompt-success').show();
-
-        setTimeout(function() {
-          $('section.intro-prompt-success').addClass('shown');
-        }, 510);
       }
     }).fail(function(xhr, textStatus, status) {
       var errorElement = $('<div class="error"><p>Sorry, we were unable to process your email address for some reason.</p><p>Please try again.</p></div>');
@@ -184,12 +148,15 @@ $(document).ready(function() {
         $('section.contact-verification-request').addClass('hidden');
         $('section.contact-verification-request').on(animationEnd, function() {
           $('section.contact-verification-request').remove();
-        });
-        $('section.contact-verification-request-success').show();
+          $('section.contact-verification-request-success').show();
 
-        setTimeout(function() {
-          $('section.contact-verification-request-success').addClass('shown');
-        }, 510);
+          setTimeout(function() {
+            $('section.contact-verification-request-success').addClass('shown');
+          }, 510);
+        });
+        
+
+        
       }
     }).fail(function(xhr, textStatus, status) {
       var errorElement = $('<div class="error"><p>Sorry, we were unable to verify your email address for some reason.</p><p>Please try again.</p></div>');

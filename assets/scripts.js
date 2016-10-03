@@ -1,3 +1,5 @@
+var animationEnd = 'webkitAnimationEnd oanimationend msAnimationEnd animationend';
+
 // From http://stackoverflow.com/questions/19491336/get-url-parameter-jquery-or-how-to-get-query-string-values-in-js
 var getUrlParameter = function getUrlParameter(sParam) {
   var sPageURL = decodeURIComponent(window.location.search.substring(1)),
@@ -88,7 +90,7 @@ $(document).ready(function() {
   /* Body children animation detection */
 
   $.each($('body').children(), function(index, child) {
-    $(child).on('webkitAnimationEnd oanimationend msAnimationEnd animationend', checkViewportHeight);
+    $(child).on(animationEnd, checkViewportHeight);
   });
 
   /* Intro prompt */
@@ -130,6 +132,9 @@ $(document).ready(function() {
       success: function(resource) {
         $('section.intro-prompt form button').removeClass('pending');
         $('section.intro-prompt').addClass('hidden');
+        $('section.intro-prompt').on(animationEnd, function() {
+          $('section.intro-prompt').remove();
+        });
         $('section.intro-prompt-success').show();
 
         setTimeout(function() {
@@ -177,6 +182,9 @@ $(document).ready(function() {
       success: function(resource) {
         $('section.contact-verification-request form button').removeClass('pending');
         $('section.contact-verification-request').addClass('hidden');
+        $('section.contact-verification-request').on(animationEnd, function() {
+          $('section.contact-verification-request').remove();
+        });
         $('section.contact-verification-request-success').show();
 
         setTimeout(function() {
@@ -184,10 +192,12 @@ $(document).ready(function() {
         }, 510);
       }
     }).fail(function(xhr, textStatus, status) {
+      var errorElement = $('<div class="error"><p>Sorry, we were unable to verify your email address for some reason.</p><p>Please try again.</p></div>');
+
       if ($('section.contact-verification-request .error').length) {
-        $('section.contact-verification-request form .error').replaceWith('<div class="error"><p>' + xhr.responseText + '</p></div>');
+        $('section.contact-verification-request form .error').replaceWith(errorElement);
       } else {
-        $('section.contact-verification-request form').before('<div class="error"><p>' + xhr.responseText + '</p></div>');
+        $('section.contact-verification-request form').before(errorElement);
       }
 
       $('section.contact-verification-request form button').removeClass('pending');

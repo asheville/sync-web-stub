@@ -394,20 +394,20 @@ section.intro-prompt .error,
 section.contact-verification-request .error {
   animation: growAndFadeIn 2s forwards;
   max-width: 28em;
-  margin: auto;
+  margin: 3em auto auto auto;
   color: white;
   background: rgba(255, 255, 255, 0.1);
   padding: 2em;
   box-sizing: border-box;
   margin-bottom: 2em;
-  margin-top: -1em;
   overflow: hidden;
 }
 
 @media (max-width: 40em) {
   section.intro-prompt .error, 
   section.contact-verification-request .error {
-    padding: 1em;
+    margin-top: 2em;
+    padding: 1.5em;
   }
 }
 
@@ -454,6 +454,13 @@ section.contact-verification-request form {
   margin-top: 3em;
 }
 
+@media (max-width: 40em) {
+  section.intro-prompt form,
+  section.contact-verification-request form {
+    margin-top: 2em;
+  }
+}
+
 section.intro-prompt div.intro-prompt-interior > p, 
 section.intro-prompt form>input, 
 section.intro-prompt form>button {
@@ -466,7 +473,6 @@ section.intro-prompt form>button {
   div.intro-prompt-interior > p,
   section.contact-verification-request > p {
     font-size: 1.5em;
-    margin: 1em 0 1.5em 0;
     padding: 0 0.75em;
   }
 }
@@ -529,6 +535,7 @@ section.contact-verification-request-success.shown {
   section.intro-prompt-success, 
   section.contact-verification-request-success {
     opacity: 0;
+    margin-top: 6em;
     padding: 2em;
   }
 }

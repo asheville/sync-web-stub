@@ -160,6 +160,10 @@ body {
   -webkit-user-select: none;
 }
 
+body, body > * {
+  min-width: 20em;
+}
+
 body, body * {
   text-rendering: geometricPrecision;
 }
@@ -277,8 +281,7 @@ p:first-child {
 section {
   box-sizing: border-box;
   left: 50%;
-  max-width: 40em;
-  min-width: 20em;
+  width: 40em;
   position: absolute;
   text-align: center;
   top: 50%;
@@ -355,6 +358,12 @@ section.intro-prompt div.intro-prompt-interior {
   animation: growIn 1s forwards ease-in-out;
   animation-delay: 0.5s;
   max-height: 0;
+}
+
+@media (min-width: 30em) {
+  section.intro-prompt div.intro-prompt-interior {
+    padding: 0 1em;
+  }
 }
 
 section.intro-prompt .standard-logo,
@@ -462,7 +471,7 @@ section.intro-prompt form>button {
   }
 }
 
-@media (max-width: 40em) {
+@media (max-width: 28em) {
   section.intro-prompt form>input, 
   section.intro-prompt form>button,
   section.contact-verification-request form>input, 

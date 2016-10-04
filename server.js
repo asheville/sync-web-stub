@@ -5,14 +5,16 @@ var fs = require('fs');
 var app = express();
 var serveStatic = require('serve-static');
 
-app.use('/assets', serveStatic(__dirname + '/assets'));
+var buildDir = __dirname + '/build';
+
+app.use('/assets', serveStatic(buildDir + '/assets'));
 
 app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(buildDir + '/index.html');
 });
 
 app.get('/contactVerificationRequests/:id', function(req, res) {
-  res.sendFile(__dirname + '/contactVerificationRequest.html');
+  res.sendFile(buildDir + '/contactVerificationRequest.html');
 });
 
 app.https_port = process.env.SYNC_WEB_STUB_HTTPS_PORT;

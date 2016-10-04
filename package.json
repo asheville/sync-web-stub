@@ -1,10 +1,20 @@
 {
   "name": "sync-web-stub",
   "version": "1.0.0",
-  "main": "app.js",
+  "main": "server.js",
   "license": "MIT",
   "dependencies": {
     "express": "^4.14.0",
     "serve-static": "^1.11.1"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-concurrent": "^2.3.1",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-nodemon": "^0.4.2",
+    "grunt-replace": "^1.0.1",
+    "load-grunt-tasks": "^3.5.2"
   }
 }

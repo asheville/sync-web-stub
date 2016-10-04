@@ -88,7 +88,7 @@ $(document).ready(function() {
     };
 
     $.post({
-      url: 'https://127.0.0.1:9090/contactVerificationRequests',
+      url: 'https://@@SYNC_WEB_SERVER_HOST/contactVerificationRequests',
       data: JSON.stringify(resource),
       contentType: 'application/json',
       success: function(resource) {
@@ -127,7 +127,7 @@ $(document).ready(function() {
     $('section.contact-verification-request form button').addClass('pending');
 
     $.ajax({
-      url: 'https://127.0.0.1:9090' + window.location.pathname,
+      url: 'https://@@SYNC_WEB_SERVER_HOST' + window.location.pathname,
       type: 'PUT',
       xhrFields: {
         withCredentials: true
@@ -154,9 +154,6 @@ $(document).ready(function() {
             $('section.contact-verification-request-success').addClass('shown');
           }, 510);
         });
-        
-
-        
       }
     }).fail(function(xhr, textStatus, status) {
       var errorElement = $('<div class="error"><p>Sorry, we were unable to verify your email address for some reason.</p><p>Please try again.</p></div>');

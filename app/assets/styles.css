@@ -489,10 +489,17 @@ body.exceeds-viewport-height section.contact-verification-request.hidden {
 
 section.intro-prompt form,
 section.contact-verification-request form {
-  margin-top: 3em;
+  margin-top: 5em;
 }
 
 @media (max-width: 40em) {
+  section.intro-prompt form,
+  section.contact-verification-request form {
+    margin-top: 3.5em;
+  }
+}
+
+@media (max-width: 28em) {
   section.intro-prompt form,
   section.contact-verification-request form {
     margin-top: 2.5em;

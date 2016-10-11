@@ -72,17 +72,17 @@ $(document).ready(function() {
     $('section.intro-prompt form button').addClass('pending');
 
     var resource = {
-      'data': {
-        'type': 'contactVerificationRequest',
-        'attributes': {
-          'method': 'email',
-          'contact': email,
-          'createUser': true,
-          'createSession': true,
-          'createNotificationRequests': [{
+      data: {
+        type: 'contactVerificationRequest',
+        attributes: {
+          method: 'email',
+          contact: email,
+          createUser: true,
+          authenticateSession: true,
+          createNotificationRequests: [{
             event: 'Initial app launch'
           }],
-          'clientHost': window.location.origin
+          clientOrigin: window.location.origin
         }
       }
     };
@@ -133,10 +133,10 @@ $(document).ready(function() {
         withCredentials: true
       },
       data: JSON.stringify({
-        'data': {
-          'type': 'contactVerificationRequest',
-          'attributes': {
-            id: window.location.pathname.substr(window.location.pathname.lastIndexOf('/') + 1),
+        data: {
+          id: window.location.pathname.substr(window.location.pathname.lastIndexOf('/') + 1),
+          type: 'contactVerificationRequest',
+          attributes: {
             code: getUrlParameter('code'),
             verified: true
           }

@@ -60,10 +60,11 @@ module.exports = function(grunt) {
       deploy: {
         options: {
           exclude: [
-            ".DS_Store",
-            ".git",
-            "node_modules",
-            "*.sublime*"
+            '.DS_Store',
+            '.git',
+            'node_modules',
+            '*.sublime*',
+            '*.env'
           ],
           recursive: true,
           src: './',

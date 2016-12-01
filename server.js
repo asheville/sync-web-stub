@@ -1,10 +1,10 @@
+require('dotenv').config();
 var express = require('express');
 var http = require('http');
 var https = require('https');
 var fs = require('fs');
 var app = express();
 var serveStatic = require('serve-static');
-
 var buildDir = __dirname + '/build';
 
 app.use('/assets', serveStatic(buildDir + '/assets'));

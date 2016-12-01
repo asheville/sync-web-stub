@@ -1,4 +1,5 @@
-*.env
+.certs*
+.env*
 .DS_Store
 build
 sync-web-stub.sublime-workspace

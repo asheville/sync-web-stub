@@ -1,4 +1,5 @@
-require('dotenv').config();
+require('./lib/env');
+
 var express = require('express');
 var http = require('http');
 var https = require('https');
@@ -17,18 +18,39 @@ app.get('/contactVerificationRequests/:id', function(req, res) {
   res.sendFile(buildDir + '/contactVerificationRequest.html');
 });
 
-app.https_port = process.env.SYNC_WEB_STUB_HTTPS_PORT;
-app.http_port = process.env.SYNC_WEB_STUB_HTTP_PORT;
+app.httpsPort = process.env.SYNC_WEB_STUB_HTTPS_PORT;
+app.httpPort = process.env.SYNC_WEB_STUB_HTTP_PORT;
 
-https.createServer({
-  key: fs.readFileSync(process.env.SYNC_WEB_STUB_SSL_KEY, 'utf8'),
-  cert: fs.readFileSync(process.env.SYNC_WEB_STUB_SSL_CRT, 'utf8'),
-  ca: fs.readFileSync(process.env.SYNC_WEB_STUB_SSL_INT_CRT, 'utf8')
-}, app).listen(app.https_port);
+var keyPath = process.env.SYNC_WEB_STUB_CERTS_DIR + '/key';
+var certPath = process.env.SYNC_WEB_STUB_CERTS_DIR + '/crt';
+var caPath = process.env.SYNC_WEB_STUB_CERTS_DIR + '/ca';
 
-http.createServer(app).listen(app.http_port);
+try {  
+  if (!fs.existsSync(keyPath)) {
+    throw new Error('Server failed to find SSL key file');
+  }
 
-module.exports = app;
+  if (!fs.existsSync(certPath)) {
+    throw new Error('Server failed to find SSL certificate file');
+  }
 
-console.info('https listening on', app.https_port);
-console.info('http listening on', app.http_port);
+  if (!fs.existsSync(caPath)) {
+    throw new Error('Server failed to find SSL intermediate CA certificate file');
+  }
+
+	https.createServer({
+	  key: fs.readFileSync(keyPath, 'utf8'),
+	  cert: fs.readFileSync(certPath, 'utf8'),
+	  ca: fs.readFileSync(caPath, 'utf8')
+	}, app).listen(app.httpsPort);
+
+	http.createServer(app).listen(app.httpPort);
+
+	module.exports = app;
+
+	console.info('Server listening for HTTPS requests on', app.httpsPort);
+	console.info('Server listening for HTTP requests on', app.httpPort);
+} catch (error) {
+  console.error(error.message);
+  throw error;
+}

@@ -1,16 +1,34 @@
+# Sync web stub
+
 This repository contains the source code for a website that collects email addresses from visitors who want to be notified about the release of [sync-web](https://github.com/asheville/sync-web).
 
 It contains a corresponding server and relies on [sync-server](https://github.com/asheville/sync-server) to process contact verification requests and store notification preferences on behalf of newly generated users.
 
-The following environment variables are required:
+## Setting up the environment
 
-- `SYNC_WEB_STUB_HTTPS_PORT`: Port through which to serve this website with HTTPS (e.g. 9091)
-- `SYNC_WEB_STUB_HTTP_PORT`: Port through which to serve this website with HTTP (e.g. 80)
-- `SYNC_WEB_STUB_SSL_KEY`: Path to local SSL key file (e.g. ~/.ssh/certs/sync-web-stub.key)
-- `SYNC_WEB_STUB_SSL_CRT`: Path to local SSL certificate file (e.g. ~/.ssh/certs/sync-web-stub.crt)
-- `SYNC_WEB_STUB_SSL_INT_CRT`: Path to local SSL intermediate CA certificate file (e.g. ~/.ssh/certs/sync-web-stub-int.crt)
-- `SYNC_WEB_STUB_SERVER_HOST`: Host URL of [sync-server](https://github.com/asheville/sync-server), including port
+The code requires several environment variables either to run the server or to deploy it to another system. The following environment variables can be declared by adding a file named `.env` (in [INI format](https://en.wikipedia.org/wiki/INI_file)) to the base directory, assuming they're not declared elsewhere in the system already. Such a file will be ignored by Git.
 
-To build the website, install [NPM](https://npmjs.com) and [Grunt](http://gruntjs.com) then run `npm install` and `grunt build`.
+- `SYNC_WEB_STUB_HTTPS_PORT`: Port through which to serve HTTPS requests with the app (e.g. `443`; required to run app)
+- `SYNC_WEB_STUB_HTTP_PORT`: Port through which to serve HTTP requests with the app (e.g. `80`; required to run app)
+- `SYNC_WEB_STUB_SERVER_HOST`: Host URL of [sync-server](https://github.com/asheville/sync-server), including port (e.g. `127.0.0.1:9090`)
+- `SYNC_WEB_STUB_CERTS_DIR`: Local system path to a directory with the SSL certificate files `key`, `crt` and `ca` needed by the app to serve HTTPs requests (e.g. `/Users/me/sync-web-stub/.certs`; required to run app)
+- `SYNC_WEB_STUB_DEPLOY_HOST_USERNAME`: User name with which to SSH into remote deployment server (e.g. `root`; required to deploy app)
+- `SYNC_WEB_STUB_DEPLOY_HOST`: Host address for the remote deployment server (e.g. `example.com`; required to deploy app)
+- `SYNC_WEB_STUB_DEPLOY_HOST_DIR`: Remote system path to app directory on deployment server (e.g. `/var/www/sync-web-stub`; required to deploy app)
+- `SYNC_WEB_STUB_DEPLOY_CERTS_DIR`: Local system path to a directory with the SSL certificate files `key`, `crt` and `ca` needed by the app to serve HTTPs requests *remotely on the deployment server* (e.g. `/Users/me/sync-web-stub/.certs-deploy`; required to deploy app). This directory will be copied to `.certs` within the base directory of the app on the deployment server so the environment variable `SYNC_WEB_STUB_CERTS_DIR` must be set to `.certs` in the deployment environment unless this directory is later moved.
 
-To run the server during development while watching for both server and source file changes, run `grunt dev`.
+Note that you can create directories called `.certs` and `.certs-deploy` within the base directory to satisfy the `SYNC_WEB_STUB_CERTS_DIR` and `SYNC_WEB_STUB_DEPLOY_CERTS_DIR` variables and they will be ignored by Git.
+
+If you intend to deploy the server to another system using scripts within the "Developing and deploying the server" section below, you can also create a `.env-deploy` file in the base directory, one that will be ignored by Git and used upon deployment to create an `.env` file remotely, thereby setting environment variables on the deployment server.
+
+## Developing and deploying the server
+
+With [Grunt](gruntjs.com) installed in addition to establishing your environment accordingly per the instructions above, you can run any of the following scripts to help with development and deployment:
+
+- `grunt build`: Builds app from source into static files that contain environment-specific features and places them under `build` directory
+- `grunt dev`: Runs the app and automatically reloads it when code changes are made during development
+- `grunt deploy`: Runs all tests locally, deploys environment and certificate file dependencies, deploys the app remotely, runs `npm install` remotely to ensure the installation of dependencies, and builds remotely
+- `grunt deploy-dependencies`: Deploys environment and certificate file dependencies.
+- `grunt deploy-app`: Deploys the app remotely, runs `npm install` remotely to ensure the installation of dependencies, and builds remotely
+- `grunt deploy-forever`: Runs all tests locally, deploys environment and certificate file dependencies, deploys the app remotely, runs `npm install` remotely to ensure the installation of dependencies, builds remotely, and either starts or restarts the app remotely with [forever](https://github.com/foreverjs/forever). Ensure that Node with NPM and forever are installed remotely before running this script.
+- `grunt deploy-systemd`: Runs all tests locally, deploys environment and certificate file dependencies, deploys the app remotely, runs `npm install` remotely to ensure the installation of dependencies, builds remotely, and either starts or restarts the app remotely with [systemd](https://www.digitalocean.com/community/tutorials/systemd-essentials-working-with-services-units-and-the-journal). Ensure that Node and systemd with a service for the app called `syncwebstub` are installed remotely before running this script.

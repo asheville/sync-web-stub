@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('./lib/env');
 
 module.exports = function(grunt) {
   'use strict';
@@ -22,23 +22,11 @@ module.exports = function(grunt) {
       }
     },
     replace: {
-      buildDev: {
+      build: {
         options: {
           patterns: [{
             match: 'SYNC_WEB_SERVER_HOST',
             replacement: process.env.SYNC_WEB_STUB_SERVER_HOST
-          }]
-        },
-        files: [{
-          src: 'build/assets/scripts.js',
-          dest: 'build/assets/scripts.js'
-        }]
-      },
-      buildProd: {
-        options: {
-          patterns: [{
-            match: 'SYNC_WEB_SERVER_HOST',
-            replacement: process.env.SYNC_WEB_STUB_DEPLOY_SERVER_HOST
           }]
         },
         files: [{
@@ -59,19 +47,36 @@ module.exports = function(grunt) {
       }
     },
     rsync: {
-      deploy: {
+      options: {
+        args: ['--rsync-path="mkdir -p ' + process.env.SYNC_WEB_STUB_DEPLOY_HOST_DIR + ' && rsync"'],
+        host: process.env.SYNC_WEB_STUB_DEPLOY_HOST_USERNAME + '@' + process.env.SYNC_WEB_STUB_DEPLOY_HOST,
+        recursive: true
+      },
+      app: {
         options: {
           exclude: [
             '.DS_Store',
             '.git',
             'node_modules',
             '*.sublime*',
-            '*.env'
+            '.certs*',
+            '.env*',
+            'build'
           ],
-          recursive: true,
           src: './',
-          dest: process.env.SYNC_WEB_STUB_DEPLOY_HOST_DIR,
-          host: process.env.SYNC_WEB_STUB_DEPLOY_HOST_USERNAME + '@' + process.env.SYNC_WEB_STUB_DEPLOY_HOST
+          dest: process.env.SYNC_WEB_STUB_DEPLOY_HOST_DIR
+        }
+      },
+      certs: {
+        options: {
+          src: process.env.SYNC_WEB_STUB_DEPLOY_CERTS_DIR + '/',
+          dest: process.env.SYNC_WEB_STUB_DEPLOY_HOST_DIR + '/.certs/'
+        }
+      },
+      env: {
+        options: {
+          src: '.env-deploy',
+          dest: process.env.SYNC_WEB_STUB_DEPLOY_HOST_DIR + '/.env'
         }
       }
     },
@@ -83,41 +88,56 @@ module.exports = function(grunt) {
         agent: process.env.SSH_AUTH_SOCK
       },
       npmInstall: {
-        command: 'cd ' + process.env.SYNC_WEB_STUB_DEPLOY_HOST_DIR + ' && npm install --production'
+        command: 'cd ' + process.env.SYNC_WEB_STUB_DEPLOY_HOST_DIR + ' && npm install'
       },
-      foreverRestartAll: {
-        command: 'cd ' + process.env.SYNC_WEB_STUB_DEPLOY_HOST_DIR + ' && forever restart server.js'
+      build: {
+        command: 'cd ' + process.env.SYNC_WEB_STUB_DEPLOY_HOST_DIR + ' && grunt build'
+      },
+      forever: {
+        command: 'cd ' + process.env.SYNC_WEB_STUB_DEPLOY_HOST_DIR + ' && forever restart server.js || forever start server.js'
+      },
+      systemd: {
+        command: 'systemctl restart syncwebstub || systemctl start syncwebstub'
       }
     }
   });
 
   require('load-grunt-tasks')(grunt);
 
-  // Build app from source files for dev environment
-  grunt.registerTask('buildDev', [
+  grunt.registerTask('build', 'Build app from source files', [
     'clean:build',
     'copy:build',
-    'replace:buildDev'
+    'replace:build'
   ]);
 
-  // Build app from source files for production environment
-  grunt.registerTask('buildProd', [
-    'clean:build',
-    'copy:build',
-    'replace:buildProd'
-  ]);
-
-  // Build app and run local web server for development
-  grunt.registerTask('dev', [
-    'buildDev',
+  grunt.registerTask('dev', 'Build app and run local web server for development', [
+    'build',
     'concurrent:build'
   ]);
 
-  // Deploy to host
-  grunt.registerTask('deploy', [
-    'buildProd',
-    'rsync:deploy',
+  grunt.registerTask('deploy', 'Run tests and deploy', [
+    'deploy-dependencies',
+    'deploy-app'
+  ]);
+
+  grunt.registerTask('deploy-dependencies', 'Deploy environment config files and certificate files', [
+    'rsync:certs',
+    'rsync:env'
+  ]);
+
+  grunt.registerTask('deploy-app', 'Deploy app to host', [
+    'rsync:app',
     'sshexec:npmInstall',
-    'sshexec:foreverRestartAll'
+    'sshexec:build'
+  ]);
+
+  grunt.registerTask('deploy-forever', 'Deploy app, install modules and start/restart with forever', [
+    'deploy',
+    'sshexec:forever'
+  ]);
+
+  grunt.registerTask('deploy-systemd', 'Deploy app, install modules and start/restart with systemd', [
+    'deploy',
+    'sshexec:systemd'
   ]);
 };

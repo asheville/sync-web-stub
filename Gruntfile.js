@@ -97,7 +97,7 @@ module.exports = function(grunt) {
         command: 'cd ' + process.env.SYNC_WEB_STUB_DEPLOY_HOST_DIR + ' && forever restart server.js || forever start server.js'
       },
       systemd: {
-        command: 'systemctl restart syncwebstub || systemctl start syncwebstub'
+        command: 'sudo systemctl restart syncwebstub || sudo systemctl start syncwebstub'
       }
     }
   });

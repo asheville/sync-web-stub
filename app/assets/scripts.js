@@ -73,7 +73,7 @@ $(document).ready(function() {
 
     var resource = {
       data: {
-        type: 'contactVerificationRequest',
+        type: 'contactVerificationRequests',
         attributes: {
           method: 'email',
           contact: email,
@@ -128,14 +128,14 @@ $(document).ready(function() {
 
     $.ajax({
       url: 'https://@@SYNC_WEB_SERVER_HOST' + window.location.pathname,
-      type: 'PUT',
+      type: 'PATCH',
       xhrFields: {
         withCredentials: true
       },
       data: JSON.stringify({
         data: {
           id: window.location.pathname.substr(window.location.pathname.lastIndexOf('/') + 1),
-          type: 'contactVerificationRequest',
+          type: 'contactVerificationRequests',
           attributes: {
             code: getUrlParameter('code'),
             verified: true

@@ -88,7 +88,7 @@ $(document).ready(function() {
     };
 
     $.post({
-      url: 'https://@@SYNC_WEB_SERVER_HOST/contactVerificationRequests',
+      url: 'https://@@SYNC_WEB_SERVER_HOST/contact-verification-requests',
       data: JSON.stringify(resource),
       contentType: 'application/json',
       success: function(resource) {

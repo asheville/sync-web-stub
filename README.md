@@ -23,14 +23,14 @@ If you intend to deploy the server to another system using scripts within the "D
 
 ## Developing and deploying the server
 
-With [Grunt](gruntjs.com) installed in addition to establishing your environment accordingly per the instructions above, you can run any of the following scripts to help with development and deployment:
+After establishing your environment per the instructions above, you can run any of the following scripts to help with development and deployment:
 
-- `grunt build`: Builds app from source into static files that contain environment-specific features and places them under `build` directory
-- `grunt dev`: Runs the app and automatically reloads it when code changes are made during development
-- `grunt deploy`: Runs all tests locally, deploys environment and certificate file dependencies, deploys the app remotely, runs `npm install` remotely to ensure the installation of dependencies, and builds remotely
-- `grunt deploy-dependencies`: Deploys environment and certificate file dependencies.
-- `grunt deploy-app`: Deploys the app remotely, runs `npm install` remotely to ensure the installation of dependencies, and builds remotely
+- `npm run build`: Builds app from source into static files that contain environment-specific features and places them under `build` directory
+- `npm run dev`: Runs the app and automatically reloads it when code changes are made during development
+- `npm run deploy`: Runs all tests locally, deploys environment and certificate file dependencies, deploys the app remotely, runs `npm install` remotely to ensure the installation of dependencies, and builds remotely
+- `npm run deploy-dependencies`: Deploys environment and certificate file dependencies.
+- `npm run deploy-app`: Deploys the app remotely, runs `npm install` remotely to ensure the installation of dependencies, and builds remotely
 
-If you add `forever` to any of the deployment scripts (e.g. `grunt deploy forever`), [forever](https://github.com/foreverjs/forever) will be used to start or restart the app remotely post-deployment. Ensure that Node with NPM and forever are installed remotely before appending this script.
+If you add `forever` to any of the deployment scripts (e.g. `npm run deploy forever`), [forever](https://github.com/foreverjs/forever) will be used to start or restart the app remotely post-deployment. Ensure that Node with NPM and forever are installed remotely before appending this script.
 
-If you add `systemd` to any of the deployment scripts (e.g. `grunt deploy systemd`), [systemd](https://www.digitalocean.com/community/tutorials/systemd-essentials-working-with-services-units-and-the-journal) will be used to start or restart the app remotely post-deployment. Ensure that Node and systemd with a service for the app called `syncwebstub` are installed remotely before running this script.
+If you add `systemd` to any of the deployment scripts (e.g. `npm run deploy systemd`), [systemd](https://www.digitalocean.com/community/tutorials/systemd-essentials-working-with-services-units-and-the-journal) will be used to start or restart the app remotely post-deployment. Ensure that Node and systemd with a service for the app called `syncwebstub` are installed remotely before running this script.

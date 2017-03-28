@@ -8,13 +8,13 @@ var app = express();
 var serveStatic = require('serve-static');
 var buildDir = __dirname + '/build';
 
-app.use('/assets', serveStatic(buildDir + '/assets'));
+app.use(serveStatic(buildDir + '/assets'));
 
 app.get('/', function(req, res) {
   res.sendFile(buildDir + '/index.html');
 });
 
-app.get('/contactVerificationRequests/:id', function(req, res) {
+app.get('/contact-verification-requests/:id', function(req, res) {
   res.sendFile(buildDir + '/contactVerificationRequest.html');
 });
 
@@ -25,32 +25,20 @@ var keyPath = process.env.SYNC_WEB_STUB_CERTS_DIR + '/key';
 var certPath = process.env.SYNC_WEB_STUB_CERTS_DIR + '/crt';
 var caPath = process.env.SYNC_WEB_STUB_CERTS_DIR + '/ca';
 
-try {  
-  if (!fs.existsSync(keyPath)) {
-    throw new Error('Server failed to find SSL key file');
-  }
+http.createServer(app).listen(app.httpPort, () => {
+  console.info('Server listening for HTTP requests on', app.httpPort);
+});
 
-  if (!fs.existsSync(certPath)) {
-    throw new Error('Server failed to find SSL certificate file');
-  }
-
-  if (!fs.existsSync(caPath)) {
-    throw new Error('Server failed to find SSL intermediate CA certificate file');
-  }
-
-	https.createServer({
-	  key: fs.readFileSync(keyPath, 'utf8'),
-	  cert: fs.readFileSync(certPath, 'utf8'),
-	  ca: fs.readFileSync(caPath, 'utf8')
-	}, app).listen(app.httpsPort);
-
-	http.createServer(app).listen(app.httpPort);
-
-	module.exports = app;
-
-	console.info('Server listening for HTTPS requests on', app.httpsPort);
-	console.info('Server listening for HTTP requests on', app.httpPort);
-} catch (error) {
-  console.error(error.message);
-  throw error;
+if (fs.existsSync(keyPath) && fs.existsSync(certPath) && fs.existsSync(caPath)) {
+  https.createServer({
+    key: fs.readFileSync(keyPath, 'utf8'),
+    cert: fs.readFileSync(certPath, 'utf8'),
+    ca: fs.readFileSync(caPath, 'utf8')
+  }, app).listen(app.httpsPort, () => {
+    console.info('Server listening for HTTPS requests on', app.httpsPort);
+  });
+} else {
+  console.info('Server not listening for HTTPS requests because certificate files not found');
 }
+
+module.exports = app;

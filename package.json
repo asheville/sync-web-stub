@@ -4,12 +4,14 @@
   "main": "server.js",
   "license": "MIT",
   "dependencies": {
+    "debug": "^2.6.1",
     "dotenv": "^2.0.0",
     "express": "^4.14.0",
     "serve-static": "^1.11.1"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
+    "grunt-cli": "^1.2.0",
     "grunt-concurrent": "^2.3.1",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-copy": "^1.0.0",
@@ -20,5 +22,14 @@
     "grunt-ssh": "^0.12.9",
     "load-grunt-tasks": "^3.5.2",
     "rsync": "^0.5.0"
+  },
+  "scripts": {
+    "build": "grunt build",
+    "dev": "grunt dev",
+    "deploy": "grunt deploy",
+    "deploy-dependencies": "grunt deploy-dependencies",
+    "deploy-app": "grunt deploy-app",
+    "forever": "grunt forever",
+    "systemd": "grunt systemd"
   }
 }

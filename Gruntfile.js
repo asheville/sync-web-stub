@@ -48,12 +48,12 @@ module.exports = function(grunt) {
     },
     rsync: {
       options: {
-        args: ['--rsync-path="mkdir -p ' + process.env.SYNC_WEB_STUB_DEPLOY_HOST_DIR + ' && rsync"'],
         host: process.env.SYNC_WEB_STUB_DEPLOY_HOST_USERNAME + '@' + process.env.SYNC_WEB_STUB_DEPLOY_HOST,
         recursive: true
       },
       app: {
         options: {
+          args: ['--delete --force --rsync-path="mkdir -p ' + process.env.SYNC_WEB_STUB_DEPLOY_HOST_DIR + ' && rsync"'],
           exclude: [
             '.DS_Store',
             '.git',
@@ -75,6 +75,7 @@ module.exports = function(grunt) {
       },
       env: {
         options: {
+          args: ['--delete --force --rsync-path="mkdir -p ' + process.env.SYNC_WEB_STUB_DEPLOY_HOST_DIR + ' && rsync"'],
           src: '.env-deploy',
           dest: process.env.SYNC_WEB_STUB_DEPLOY_HOST_DIR + '/.env'
         }

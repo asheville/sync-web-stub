@@ -541,7 +541,7 @@ section.intro-prompt button::after {
   display: inline-block;
   width: 1em;
   height: 1em;
-  background: url(/assets/send-icon.svg);
+  background: url(/send-icon.svg);
   background-size: auto 100%;
   opacity: 0.75;
   background-repeat: no-repeat;

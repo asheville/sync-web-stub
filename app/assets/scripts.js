@@ -73,16 +73,16 @@ $(document).ready(function() {
 
     var resource = {
       data: {
-        type: 'contactVerificationRequests',
-        attributes: {
-          method: 'email',
-          contact: email,
-          createUser: true,
-          authenticateSession: true,
-          createNotificationRequests: [{
-            event: 'Initial app launch'
+        'type': 'contact-verification-requests',
+        'attributes': {
+          'method': 'email',
+          'contact': email,
+          'create-user': true,
+          'authenticate-session': true,
+          'create-notification-requests': [{
+            'event': 'Initial app launch'
           }],
-          clientOrigin: window.location.origin
+          'client-origin': window.location.origin
         }
       }
     };
@@ -135,7 +135,7 @@ $(document).ready(function() {
       data: JSON.stringify({
         data: {
           id: window.location.pathname.substr(window.location.pathname.lastIndexOf('/') + 1),
-          type: 'contactVerificationRequests',
+          type: 'contact-verification-requests',
           attributes: {
             code: getUrlParameter('code'),
             verified: true

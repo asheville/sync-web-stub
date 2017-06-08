@@ -160,7 +160,7 @@ body ::selection {
 }
 
 body {
-  background: linear-gradient(#00AFA3, #8D00FF);
+  background: linear-gradient(#A029FF, #8D00FF) no-repeat 100% fixed;
   background-attachment: fixed;
   background-repeat: no-repeat;
   cursor: default;
@@ -195,7 +195,7 @@ body::before {
 }
 
 button {
-  background: #ff8e00;
+  background: #FFC500;
   border-radius: 0.5em;
   border: none;
   box-shadow: 0 0.5em 0.5em rgba(0,0,0,0.1);
@@ -533,7 +533,7 @@ section.intro-prompt form>button {
 
 section.intro-prompt button {
   border-radius: 0 0 0.5em 0.5em;
-  border-top: 1px solid #e47f00;
+  border-top: 1px solid #d8a700;
   opacity: 0.5;
 }
 

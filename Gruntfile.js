@@ -1,4 +1,4 @@
-require('./lib/env');
+require('park-ranger')();
 
 module.exports = function(grunt) {
   'use strict';

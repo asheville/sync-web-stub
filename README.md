@@ -1,8 +1,8 @@
 # Sync web stub
 
-This repository contains the source code for a website that collects email addresses from visitors who want to be notified about the release of [sync-web](https://github.com/asheville/sync-web).
+This repository contains the source code for a website that collects email addresses from visitors who want to be notified about the release of [sync-web](https://github.com/neotoma/sync-web).
 
-It contains a corresponding server and relies on [sync-server](https://github.com/asheville/sync-server) to process contact verification requests and store notification preferences on behalf of newly generated users.
+It contains a corresponding server and relies on [sync-server](https://github.com/neotoma/sync-server) to process contact verification requests and store notification preferences on behalf of newly generated users.
 
 ## Setting up the environment
 
@@ -10,7 +10,7 @@ The code requires several environment variables either to run the server or to d
 
 - `SYNC_WEB_STUB_HTTPS_PORT`: Port through which to serve HTTPS requests with the app (e.g. `443`; required to run app)
 - `SYNC_WEB_STUB_HTTP_PORT`: Port through which to serve HTTP requests with the app (e.g. `80`; required to run app)
-- `SYNC_WEB_STUB_SERVER_HOST`: Host URL of [sync-server](https://github.com/asheville/sync-server), including port (e.g. `127.0.0.1:9090`)
+- `SYNC_WEB_STUB_SERVER_HOST`: Host URL of [sync-server](https://github.com/neotoma/sync-server), including port (e.g. `127.0.0.1:9090`)
 - `SYNC_WEB_STUB_CERTS_DIR`: Local system path to a directory with the SSL certificate files `key`, `crt` and `ca` needed by the app to serve HTTPs requests (e.g. `/Users/me/sync-web-stub/.certs`; required to run app)
 - `SYNC_WEB_STUB_DEPLOY_HOST_USERNAME`: User name with which to SSH into remote deployment server (e.g. `root`; required to deploy app)
 - `SYNC_WEB_STUB_DEPLOY_HOST`: Host address for the remote deployment server (e.g. `example.com`; required to deploy app)

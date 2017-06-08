@@ -7,6 +7,7 @@
     "debug": "^2.6.1",
     "dotenv": "^2.0.0",
     "express": "^4.14.0",
+    "park-ranger": "^1.0.11",
     "serve-static": "^1.11.1"
   },
   "devDependencies": {
@@ -27,9 +28,10 @@
     "build": "grunt build",
     "dev": "grunt dev",
     "deploy": "grunt deploy",
-    "deploy-dependencies": "grunt deploy-dependencies",
-    "deploy-app": "grunt deploy-app",
+    "deploy-dependencies": "grunt hoist-deploy-dependencies",
+    "deploy-app": "grunt hoist-deploy-app",
     "forever": "grunt forever",
-    "systemd": "grunt systemd"
+    "systemd": "grunt systemd",
+    "deploy-all": "grunt hoist-deploy-all"
   }
 }

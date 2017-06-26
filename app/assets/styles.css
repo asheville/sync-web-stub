@@ -1,3 +1,10 @@
+/* Fonts */
+
+@font-face {
+  font-family: "Avenir-Light";
+  src: url("/fonts/Avenir-Light.woff2");
+}
+
 /* Keyframes */
 
 @keyframes fadeOut {
@@ -164,7 +171,7 @@ body {
   background-attachment: fixed;
   background-repeat: no-repeat;
   cursor: default;
-  font-family: "Avenir Light", Avenir-Light, sans-serif;
+  font-family: "Avenir-Light", sans-serif;
   font-weight: 100;
   margin: 0;
   padding: 0;
@@ -239,7 +246,7 @@ input, button {
   box-sizing: border-box;
   display: block;
   font-size: 1.5em;
-  font-family: "Avenir Light", Avenir-Light, sans-serif;
+  font-family: "Avenir-Light", sans-serif;
   font-weight: 100;
   line-height: 1.5em;
   margin: 0;
